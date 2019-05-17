@@ -19,9 +19,12 @@ private slots:
     void on_verticalScrollBar_rangeChanged();
     void on_setRoverRange_rangeChanged();
     void read_StackReceivedData();
+    void myLabelUpdateThread();
+
 
 private:
     Ui::Dialog *ui;
+    QTimer *timer_;
 };
 
 #endif // DIALOG_H
