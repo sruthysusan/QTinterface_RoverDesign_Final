@@ -22,6 +22,7 @@ CONFIG += c++11
 SOURCES += main.cpp\
         dialog.cpp
 
-HEADERS  += dialog.h
+HEADERS  += dialog.h \
+    mytimer.h
 
 FORMS    +=

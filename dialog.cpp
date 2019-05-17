@@ -1,5 +1,7 @@
 #include "dialog.h"
 #include "ui_dialog.h"
+#include "mytimer.h"
+
 
 Dialog::Dialog(QWidget *parent) :
     QDialog(parent),
@@ -7,8 +9,29 @@ Dialog::Dialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
+
+
   connect(ui->speedScrollBar,SIGNAL(actionTriggered(int)),this, SLOT(on_verticalScrollBar_rangeChanged()));
   connect(ui->setRoverRange,SIGNAL(actionTriggered(int)),this, SLOT(on_setRoverRange_rangeChanged()));
+  connect(ui->mySerialPort,SIGNAL(readyRead()),this,SLOT(read_StackReceivedData()));
+
+
+}
+
+MyTimer :: MyTimer ()
+{
+    timer = new QTimer(this);
+    // setup signal and slot
+    connect(timer, SIGNAL(timeout()),
+          this, SLOT(MyTimerSlot()));
+
+    // msec
+    timer->start(1000);
+}
+
+void MyTimer::MyTimerSlot()
+{
+    qDebug() << "Timer...";
 }
 
 Dialog::~Dialog()
@@ -17,6 +40,17 @@ Dialog::~Dialog()
 }
 
 
+
+
+void Dialog:: read_StackReceivedData()
+{
+//https://www.qtcentre.org/threads/68698-Read-data-from-serial-port
+       *ui->receivedData = ui->mySerialPort->readAll();
+       qDebug() <<  *ui->receivedData;
+       //sleep(1);
+  //     ui->Receive->insertPlainText(data);
+
+}
 
 void Dialog::on_verticalScrollBar_rangeChanged()
 {
@@ -32,3 +66,7 @@ void Dialog::on_setRoverRange_rangeChanged()
 {
    ui->setRRLabel->setText(QString("ROV_RANG_LMT-> %1").arg(ui->setRoverRange->value()));
 }
+
+
+
+

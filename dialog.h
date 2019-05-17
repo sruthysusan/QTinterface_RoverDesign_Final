@@ -18,6 +18,7 @@ public:
 private slots:
     void on_verticalScrollBar_rangeChanged();
     void on_setRoverRange_rangeChanged();
+    void read_StackReceivedData();
 
 private:
     Ui::Dialog *ui;
